@@ -3,6 +3,7 @@
 import type React from "react"
 import { useState } from "react"
 import { Mail, Linkedin, Github } from "lucide-react"
+import emailjs from '@emailjs/browser'
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -17,13 +18,45 @@ export default function Contact() {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Here you would typically send the form data to a server
-    console.log("Form submitted:", formData)
-    setSubmitted(true)
-    setTimeout(() => setSubmitted(false), 3000)
-    setFormData({ name: "", email: "", message: "" })
+    
+    // Replace these with your actual EmailJS credentials
+    const serviceId = 'service_5nm1ero';
+    const templateId = 'template_ptpv7fd';
+    const publicKey = 'T3-uxLHUIimxNX7g_';
+
+    try {
+      const currentDate = new Date().toLocaleString('th-TH', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      });
+
+      await emailjs.send(
+        serviceId,
+        templateId,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          message: formData.message,
+          to_email: 'panithankunkaewpd@gmail.com',
+          timestamp: currentDate
+        },
+        publicKey
+      )
+
+      setSubmitted(true)
+      setFormData({ name: "", email: "", message: "" })
+      setTimeout(() => setSubmitted(false), 5000)
+    } catch (error) {
+      console.error('Failed to send email:', error)
+      alert('Failed to send message. Please try again later.')
+    }
   }
 
   return (
@@ -94,10 +127,16 @@ export default function Contact() {
           </div>
 
           <form onSubmit={handleSubmit} className="bg-card border border-border rounded-lg p-8 space-y-6">
-            <div>
-              <label htmlFor="name" className="block text-sm font-semibold mb-2">
-                Your Name
-              </label>
+            {submitted ? (
+              <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
+                Thank you for your message! I'll get back to you soon.
+              </div>
+            ) : (
+              <>
+                <div>
+                  <label htmlFor="name" className="block text-sm font-semibold mb-2">
+                    Your Name
+                  </label>
               <input
                 type="text"
                 id="name"
@@ -133,21 +172,24 @@ export default function Contact() {
               <textarea
                 id="message"
                 name="message"
+                rows={4}
                 value={formData.message}
                 onChange={handleChange}
                 required
-                rows={4}
-                className="w-full px-4 py-2 rounded-lg bg-background border border-border focus:border-primary focus:outline-none transition-colors resize-none"
-                placeholder="Tell me about your project..."
-              />
+                className="w-full px-4 py-2 rounded-lg bg-background border border-border focus:border-primary focus:outline-none transition-colors"
+                placeholder="Your message here..."
+              ></textarea>
             </div>
 
             <button
               type="submit"
-              className="w-full px-6 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-colors"
+              className="w-full bg-primary text-white py-3 px-6 rounded-lg font-semibold hover:bg-primary/90 transition-colors disabled:opacity-70"
+              disabled={submitted}
             >
-              {submitted ? "Message Sent! ✓" : "Send Message"}
+              {submitted ? 'Sending...' : 'Send Message'}
             </button>
+              </>
+            )}
           </form>
         </div>
       </div>

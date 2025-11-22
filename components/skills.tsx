@@ -4,33 +4,55 @@ export default function Skills() {
   const skillCategories = [
     {
       title: "Backend Development",
-      skills: ["Go (Golang)", "REST API Design", "Server Architecture", "Database Design"],
-      proficiency: "Expert",
+      skills: [
+        "Go (Golang)", "Python", "REST API Design", "API Gateway", 
+        "Authentication & Authorization"
+      ],
+      proficiency: "Experienced",
     },
     {
-      title: "DevOps & Infrastructure",
-      skills: ["Docker", "Docker Swarm", "Nginx", "CI/CD Pipelines", "GitHub Actions", "Server Configuration"],
-      proficiency: "Expert",
+      title: "Frontend Development",
+      skills: [
+        "HTML5", "CSS3", "JavaScript", "TypeScript", "React", "Next.js", "Tailwind CSS"
+      ],
+      proficiency: "Beginner",
     },
     {
-      title: "Database Management",
-      skills: ["MySQL", "Database Design", "Query Optimization", "Data Modeling"],
-      proficiency: "Advanced",
+      title: "DevOps & Cloud",
+      skills: [
+        "Docker", "Docker Swarm",
+        "CI/CD Pipelines", "GitHub Actions", "Jenkins", "GitLab CI", "Nginx"
+      ],
+      proficiency: "Experienced",
+    },
+    {
+      title: "Database & Caching",
+      skills: [
+        "MySQL", "MongoDB", "Redis",
+        "Database Design"
+      ],
+      proficiency: "Experienced",
     },
     {
       title: "AI & Machine Learning",
-      skills: ["Computer Vision", "Python", "Real-time Processing", "Edge Computing", "Jetson Nano"],
-      proficiency: "Advanced",
+      skills: [
+        "Python", "TensorFlow", "PyTorch",
+        "Real-time Processing", "Jetson Nano"
+      ],
+      proficiency: "Beginner",
     },
     {
       title: "Tools & Platforms",
-      skills: ["Git", "GitHub", "MinIO", "Telegram API", "API Documentation (Swagger)", "DrawDB"],
-      proficiency: "Advanced",
+      skills: [
+        "Git", "GitHub", "GitLab", "MinIO", "Swagger/OpenAPI",
+        "Postman", "DrawDB"
+      ],
+      proficiency: "Beginner",
     },
     {
       title: "System Design",
       skills: ["Scalability", "Load Balancing", "Security", "Logging", "Monitoring", "Cluster Management"],
-      proficiency: "Advanced",
+      proficiency: "Beginner",
     },
   ]
 

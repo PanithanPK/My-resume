@@ -1,11 +1,90 @@
 "use client"
-import Link from "next/link"
-import { projectsData } from "@/lib/projects-data"
-import { ArrowLeft, Github, ExternalLink } from "lucide-react"
-import Image from "next/image"
 
-export default function ProjectDetail({ params }: { params: { id: string } }) {
-  const project = projectsData.find((p) => p.id === params.id)
+import { useCallback, useEffect, useState } from 'react'
+import Link from "next/link"
+import { useParams } from "next/navigation"
+import { projectsData } from "@/lib/projects-data"
+import { ArrowLeft, Github, ExternalLink, ChevronLeft, ChevronRight } from "lucide-react"
+import Image from "next/image"
+import useEmblaCarousel from 'embla-carousel-react'
+
+function ProjectImageSlider({ images }: { images: string[] }) {
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true })
+  const [selectedIndex, setSelectedIndex] = useState(0)
+  const [scrollSnaps, setScrollSnaps] = useState<number[]>([])
+
+  const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi])
+  const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi])
+
+  const scrollTo = useCallback((index: number) => emblaApi && emblaApi.scrollTo(index), [emblaApi])
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return
+    setSelectedIndex(emblaApi.selectedScrollSnap())
+  }, [emblaApi])
+
+  useEffect(() => {
+    if (!emblaApi) return
+    onSelect()
+    setScrollSnaps(emblaApi.scrollSnapList())
+    emblaApi.on('select', onSelect)
+    emblaApi.on('reInit', onSelect)
+  }, [emblaApi, onSelect])
+
+  return (
+    <div className="relative h-full w-full">
+      <div className="overflow-hidden h-full" ref={emblaRef}>
+        <div className="flex h-full">
+          {images.map((image, index) => (
+            <div key={index} className="flex-[0_0_100%] min-w-0 relative">
+              <Image
+                src={image}
+                alt={`Project image ${index + 1}`}
+                fill
+                className="object-cover"
+                priority={index === 0}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+      
+      {images.length > 1 && (
+        <>
+          <button 
+            onClick={scrollPrev}
+            className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
+            aria-label="Previous image"
+          >
+            <ChevronLeft size={24} />
+          </button>
+          <button 
+            onClick={scrollNext}
+            className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
+            aria-label="Next image"
+          >
+            <ChevronRight size={24} />
+          </button>
+          
+          <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+            {scrollSnaps.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => scrollTo(index)}
+                className={`w-2 h-2 rounded-full transition-all ${index === selectedIndex ? 'bg-white w-6' : 'bg-white/50'}`}
+                aria-label={`Go to image ${index + 1}`}
+              />
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  )
+}
+
+export default function ProjectDetail() {
+  const { id } = useParams()
+  const project = projectsData.find((p) => p.id === id)
 
   if (!project) {
     return (
@@ -37,13 +116,7 @@ export default function ProjectDetail({ params }: { params: { id: string } }) {
           <h1 className="text-5xl font-bold mb-6 text-balance">{project.title}</h1>
 
           <div className="relative w-full h-96 rounded-lg overflow-hidden border border-border mb-8">
-            <Image
-              src={project.image || "/placeholder.svg"}
-              alt={project.title}
-              fill
-              className="object-cover"
-              priority
-            />
+            <ProjectImageSlider images={project.images || [project.image || "/placeholder.svg"]} />
           </div>
 
           <p className="text-xl text-muted-foreground mb-6 leading-relaxed">{project.description}</p>

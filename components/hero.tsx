@@ -20,8 +20,8 @@ export default function Hero({ setActiveSection }: any) {
         </p>
 
         <p className="text-lg text-muted-foreground mb-12 max-w-2xl mx-auto text-balance">
-          Building scalable REST APIs with Go, mastering cloud infrastructure, and developing intelligent AI systems.
-          Passionate about system design, DevOps automation, and creating impactful solutions.
+          Crafting robust backend solutions, architecting cloud-native applications, and implementing intelligent systems.
+          Passionate about clean code, system architecture, and building solutions that make a difference.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">

@@ -6,7 +6,13 @@ export const projectsData = [
     description:
       "Enterprise-grade REST API for Problem Reporting System built with Go. Implemented complete DevOps infrastructure with Docker, Nginx, and CI/CD automation.",
     longDescription: `This is a comprehensive REST API system designed for enterprise-level problem reporting. The project demonstrates advanced backend engineering with a complete DevOps infrastructure, making it production-ready with high availability and security.`,
-    image: "/golang-rest-api-backend-system.jpg",
+    image: "/1760607352469.jpg",
+    images: [
+      "/1760607352469.jpg",
+      "/1760608342179.jpg",
+      "/1760608342731.jpg",
+      "/1760607353870.jpg"
+    ],
     highlights: [
       "Designed and implemented RESTful APIs using Go",
       "Set up MySQL database with optimized schema design",
@@ -53,7 +59,11 @@ export const projectsData = [
     description:
       "Intelligent fall detection system using computer vision and AI. Monitors individuals using cameras and triggers alerts when falls are detected.",
     longDescription: `An advanced AI-powered monitoring system that detects falls in real-time using computer vision. The system is designed to run on edge devices like Jetson Nano while providing a comprehensive web interface for monitoring and alert management. Perfect for elderly care, healthcare facilities, and safety applications.`,
-    image: "/ai-fall-detection-camera-system.jpg",
+    image: "/1744041104901.jpg",
+    images: [
+      "/1744041104901.jpg",
+      "/1744041028429.jpg"
+    ],
     highlights: [
       "Implemented real-time fall detection using computer vision",
       "Deployed on Jetson Nano for edge computing",
